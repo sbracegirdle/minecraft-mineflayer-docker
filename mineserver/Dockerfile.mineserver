@@ -1,0 +1,16 @@
+FROM openjdk
+
+RUN groupadd -r minecraft && \
+  useradd -r -g minecraft minecraft && \
+  mkdir -p /home/minecraft && \
+  chown -R minecraft:minecraft /home/minecraft
+
+WORKDIR /home/minecraft
+
+USER minecraft
+
+COPY ./minecraft /home/minecraft/
+
+EXPOSE 25565
+
+CMD ["java", "-Xmx1024M", "-Xms1024M", "-jar", "server.jar", "nogui"]

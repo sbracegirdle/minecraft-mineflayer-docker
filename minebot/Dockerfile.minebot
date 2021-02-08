@@ -1,0 +1,19 @@
+FROM node:14
+
+RUN groupadd -r minebot && \
+  useradd -r -g minebot minebot && \
+  mkdir -p /home/minebot && \
+  chown -R minebot:minebot /home/minebot
+
+USER minebot
+WORKDIR /home/minebot
+
+COPY package.json /home/minebot/package.json
+COPY package-lock.json /home/minebot/package-lock.json
+RUN npm ci
+
+COPY . /home/minebot
+
+RUN npm run test && npm run build
+
+CMD ["node", "build/src/bot.js"]

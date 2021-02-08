@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  minebot:
+    environment:
+      SERVER_HOST: mineserver
+      SERVER_PORT: 25565
+      VIEWER_PORT: 3000
+    build:
+      context: ./minebot
+      dockerfile: Dockerfile.minebot
+    depends_on:
+      - mineserver
+    ports:
+      - "3000:3000"
+  mineserver:
+    build:
+      context: ./mineserver
+      dockerfile: Dockerfile.mineserver
+    ports:
+      - "25565:25565"

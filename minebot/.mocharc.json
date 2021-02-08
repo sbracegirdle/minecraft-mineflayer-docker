@@ -1,0 +1,13 @@
+{
+  "extension": [
+    "ts"
+  ],
+  "recursive": true,
+  "require": [
+    "ts-node/register/transpile-only"
+  ],
+  "slow": 75,
+  "timeout": 2000,
+  "spec": "test/unit",
+  "file": "./test/index.ts"
+}
