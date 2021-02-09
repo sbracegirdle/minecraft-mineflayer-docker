@@ -42,10 +42,8 @@ bot.once('spawn', () => {
   console.log('spawned')
   bot.chat('Yoooooooooooooooooooooo, whatup friends?')
 
-  // This targets object is used to pass data between different states. It can be left empty.
   const targets: StateMachineTargets = {}
 
-  // Create our states
   const getClosestPlayer = new BehaviorGetClosestEntity(
     bot,
     targets,
@@ -77,8 +75,6 @@ bot.once('spawn', () => {
       shouldTransition: () => targets.entity === undefined,
     }),
 
-    // TOOD need to transition to wait if getclosetst player is undefined
-
     new StateTransition({
       parent: followPlayer,
       child: lookAtPlayer,
@@ -106,20 +102,6 @@ bot.once('spawn', () => {
     }),
   ]
 
-  bot.on('chat', (_username, message) => {
-    if (message === 'hi') {
-      transitions[0].trigger()
-    }
-
-    if (message === 'bye') {
-      transitions[1].trigger()
-    }
-  })
-
-  // Now we just wrap our transition list in a nested state machine layer. We want the bot
-  // to start on the getClosestPlayer state, so we'll specify that here.
   const rootLayer = new NestedStateMachine(transitions, getClosestPlayer, getClosestPlayer)
-
-  // We can start our state machine simply by creating a new instance.
   new BotStateMachine(bot, rootLayer)
 })
