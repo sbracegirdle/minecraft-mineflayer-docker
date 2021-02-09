@@ -11,7 +11,9 @@
   "author": "Simon Bracegirdle",
   "license": "UNLICENSED",
   "dependencies": {
-    "mineflayer": "^3.0.0"
+    "mineflayer": "^3.0.0",
+    "mineflayer-pathfinder": "^1.4.0",
+    "mineflayer-statemachine": "^1.6.1"
   },
   "devDependencies": {
     "@types/chai": "4.2.14",

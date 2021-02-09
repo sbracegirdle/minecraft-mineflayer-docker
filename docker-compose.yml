@@ -1,4 +1,4 @@
-version: "3.8"
+version: "2.4"
 services:
   minebot:
     environment:
@@ -9,7 +9,8 @@ services:
       context: ./minebot
       dockerfile: Dockerfile.minebot
     depends_on:
-      - mineserver
+      mineserver:
+        condition: service_healthy
     ports:
       - "3000:3000"
   mineserver:
@@ -18,3 +19,9 @@ services:
       dockerfile: Dockerfile.mineserver
     ports:
       - "25565:25565"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:25565"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
