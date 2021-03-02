@@ -11,6 +11,7 @@
   "author": "Simon Bracegirdle",
   "license": "UNLICENSED",
   "dependencies": {
+    "fluent-behavior-tree": "^1.2.6",
     "mineflayer": "^3.0.0",
     "mineflayer-pathfinder": "^1.4.0",
     "mineflayer-statemachine": "^1.6.1"
