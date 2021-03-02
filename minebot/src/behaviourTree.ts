@@ -1,25 +1,42 @@
 import {BehaviorTreeNodeInterface, StateData, BehaviorTreeBuilder, BehaviorTreeStatus} from 'fluent-behavior-tree'
 
+import {createStateContainer} from './botState'
+
 export const createBehaviourTree = (): BehaviorTreeNodeInterface => {
-  console.log('createBehaviourTree')
+  const withState = createStateContainer()
+
   const builder = new BehaviorTreeBuilder()
   return builder
-    .parallel('my-sequence', 1, 2)
-    .do('action1', async _t => {
+    .sequence('base-location-sequence')
+    .do(
+      'action1',
+      withState(async state => {
+        await Promise.resolve()
+
+        return {
+          ...state,
+          baseLocation: 123,
+        }
+      }),
+    )
+    .do(
+      'action2',
+      withState(async state => {
+        await Promise.resolve()
+
+        console.log('waiting')
+        await wait(20000)
+        console.log('done')
+
+        return {
+          ...state,
+          baseLocation: state.baseLocation ? state.baseLocation + 100 : undefined,
+        }
+      }),
+    )
+    .do('action3', async () => {
       await Promise.resolve()
-
-      console.log('action1')
-
-      return BehaviorTreeStatus.Success
-    })
-    .do('action2', async _t => {
-      await Promise.resolve()
-
-      console.log('waiting')
-      await wait(20000)
-      console.log('done')
-
-      return BehaviorTreeStatus.Success
+      return BehaviorTreeStatus.Running // Idle
     })
     .end()
     .build()
